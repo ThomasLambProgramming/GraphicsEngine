@@ -4,6 +4,7 @@
 #include "glfw3.h"
 #include <stdexcept>
 #include <cstdlib>
+#include <vector>
 
 class BaseApplication
 {
@@ -45,11 +46,26 @@ private:
 		createInfo.ppEnabledExtensionNames = glfwExtensions;
 		createInfo.enabledLayerCount = 0;
 
+		//This code commented out lists all the supported extensions
+		//uint32_t extensionCount = 0;
+		////by leaving pProperties out it just returns us the extension count
+		//vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
+		//std::vector<VkExtensionProperties> extensions(extensionCount);
+		//vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, extensions.data());
+		//std::cout << "Available Extensions:\n";
+		//for (const auto& extension : extensions)
+		//{
+		//	std::cout << '\t' << extension.extensionName << '\n';
+		//}
+		
 		//Thank you vulkan for having actual fucking function names not DXGI11_CREATE_FACTORY bullshit
-		if (vkCreateInstance(&createInfo, nullptr, &m_instance) != VK_SUCCESS)
+		VkResult result = vkCreateInstance(&createInfo, nullptr, &m_instance);
+		if (result == VK_ERROR_EXTENSION_NOT_PRESENT)
 		{
-			throw std::runtime_error("Failed to create Vulkan Instance");
+			
 		}
+		else if (result != VK_SUCCESS)
+			throw std::runtime_error("Failed to create Vulkan Instance");
 	}
 	void InitWindow()
 	{
@@ -71,9 +87,29 @@ private:
 	}
 	void Cleanup()
 	{
+		vkDestroyInstance(m_instance, nullptr);
 		glfwDestroyWindow(m_window);
 		glfwTerminate();
 	}
+	bool CheckValidationLayerSupport()
+	{
+		uint32_t layerCount;
+		vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
+		std::vector<VkLayerProperties> availableLayers(layerCount);
+		vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
+		return false;
+	}
+	
+	const std::vector<const char*> validationLayers = {
+		"VK_LAYER_KHRONOS_validation"
+	};
+#ifdef NDEBUG
+	const bool enableValidationLayers = false;
+#else
+	const bool enableValidationLayers = true;
+#endif
+	
+	
 	VkInstance m_instance;
 	uint32_t WIDTH = 800;
 	uint32_t HEIGHT = 600;
