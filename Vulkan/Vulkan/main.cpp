@@ -5,6 +5,7 @@
 #include <stdexcept>
 #include <cstdlib>
 #include <vector>
+#include <cstring>
 
 class BaseApplication
 {
@@ -23,7 +24,11 @@ private:
 	}
 	void CreateInstance()
 	{
-		//Holy shit vulkan really is explicit
+		if (enableValidationLayers && !CheckValidationLayerSupport())
+			throw std::runtime_error("Validation layers requested, but they are not available!");
+
+
+		//Holy shit vulkan really is explicit (i like)
 		VkApplicationInfo appInfo{};
 		appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
 		appInfo.pApplicationName = "Triangle Boi!";
@@ -38,34 +43,30 @@ private:
 		createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
 		createInfo.pApplicationInfo = &appInfo;
 
-		//Vulkan being platform agnostic requires an extension to interface with the window system of the os. glfw thankfully does that for us
-		//win32 sucks ass thank you glfw
-		uint32_t glfwExtensionCount = 0;
-		const char** glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
-		createInfo.enabledExtensionCount = glfwExtensionCount;
-		createInfo.ppEnabledExtensionNames = glfwExtensions;
-		createInfo.enabledLayerCount = 0;
-
-		//This code commented out lists all the supported extensions
-		//uint32_t extensionCount = 0;
-		////by leaving pProperties out it just returns us the extension count
-		//vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
-		//std::vector<VkExtensionProperties> extensions(extensionCount);
-		//vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, extensions.data());
-		//std::cout << "Available Extensions:\n";
-		//for (const auto& extension : extensions)
-		//{
-		//	std::cout << '\t' << extension.extensionName << '\n';
-		//}
+		std::vector<const char*> extensions = GetRequiredExtensions();
+		createInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
+		createInfo.ppEnabledExtensionNames = extensions.data();
+		
+		if (enableValidationLayers)
+		{
+			createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
+			createInfo.ppEnabledLayerNames = validationLayers.data();
+		}
+		else
+			createInfo.enabledLayerCount = 0;
 		
 		//Thank you vulkan for having actual fucking function names not DXGI11_CREATE_FACTORY bullshit
 		VkResult result = vkCreateInstance(&createInfo, nullptr, &m_instance);
+		
 		if (result == VK_ERROR_EXTENSION_NOT_PRESENT)
 		{
 			
 		}
 		else if (result != VK_SUCCESS)
 			throw std::runtime_error("Failed to create Vulkan Instance");
+
+		if (enableValidationLayers)
+			SetupDebugManager();
 	}
 	void InitWindow()
 	{
@@ -87,6 +88,10 @@ private:
 	}
 	void Cleanup()
 	{
+		if (enableValidationLayers)
+		{
+			DestroyDebugUtilsMessengerEXT(m_instance, debugMessenger, nullptr);
+		}
 		vkDestroyInstance(m_instance, nullptr);
 		glfwDestroyWindow(m_window);
 		glfwTerminate();
@@ -97,8 +102,95 @@ private:
 		vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
 		std::vector<VkLayerProperties> availableLayers(layerCount);
 		vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
-		return false;
+
+		for (const char* layerName : validationLayers)
+		{
+			bool layerFound = false;
+			for (const VkLayerProperties& layerProperties : availableLayers)
+			{
+				if (strcmp(layerName, layerProperties.layerName) == 0)
+				{
+					layerFound = true;
+					break;
+				}
+			}
+			if (layerFound == false)
+				return false;
+		}
+		
+		return true;
 	}
+	std::vector<const char*> GetRequiredExtensions()
+	{
+		uint32_t glfwExtensionCount = 0;
+		const char** glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
+		std::vector<const char*>extensions(glfwExtensions, glfwExtensions + glfwExtensionCount);
+
+		//add debug utils extension
+		if (enableValidationLayers)
+			extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
+		return extensions;
+	}
+
+	void DestroyDebugUtilsMessengerEXT(VkInstance a_instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator)
+	{
+		auto func = (PFN_vkDestroyDebugUtilsMessengerEXT)vkGetInstanceProcAddr(a_instance, "vkDestroyDebugUtilsMessengerEXT");
+		if (func != nullptr)
+			func(a_instance, debugMessenger, pAllocator);
+	}
+
+	VkResult CreateDebugUtilsMessengerEXT(
+		VkInstance a_instance,
+		const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo,
+		VkAllocationCallbacks* pAllocator,
+		VkDebugUtilsMessengerEXT* pDebugMessenger)
+	{
+		auto func = (PFN_vkCreateDebugUtilsMessengerEXT)vkGetInstanceProcAddr(a_instance, "vkCreateDebugUtilsMessengerEXT");
+		
+		if (func != nullptr)
+			return func(a_instance, pCreateInfo, pAllocator, pDebugMessenger);
+		else
+			return VK_ERROR_EXTENSION_NOT_PRESENT;
+	}
+	void SetupDebugManager()
+	{
+		if (!enableValidationLayers)
+			return;
+
+		VkDebugUtilsMessengerCreateInfoEXT createInfoExt{};
+		createInfoExt.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
+		createInfoExt.messageSeverity =
+			VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT |
+			VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | 
+			VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
+		createInfoExt.messageType =
+			VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT |
+			VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT |
+			VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
+
+		createInfoExt.pfnUserCallback = DebugCallback;
+		//Void pointer for pUserData so we could gather everything about the users pc and give it to the callback for instance.
+		createInfoExt.pUserData = nullptr;
+		
+		if (CreateDebugUtilsMessengerEXT(m_instance, &createInfoExt, nullptr, &debugMessenger) != VK_SUCCESS)
+		{
+			throw std::runtime_error("Could not setup debug messenger");
+		}
+	}
+	//VKAPI_CALL= __stdcall on windows (just tells the stack how to use the function.
+	//VKAPI_ATTR = nothing on windows so we are actually just doing
+	//static Vkbool32 (usestandardcall) DebugCallback
+	static VKAPI_ATTR VkBool32 VKAPI_CALL DebugCallback(
+		VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
+		VkDebugUtilsMessageTypeFlagsEXT messageType,
+		const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
+		void* pUserData)
+	{
+		std::cerr << "Validation Layer" << pCallbackData->pMessage << std::endl;
+		return VK_FALSE;
+	}
+	VkDebugUtilsMessengerEXT debugMessenger;
+	
 	
 	const std::vector<const char*> validationLayers = {
 		"VK_LAYER_KHRONOS_validation"
