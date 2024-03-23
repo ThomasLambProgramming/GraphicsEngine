@@ -51,9 +51,15 @@ private:
 		{
 			createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
 			createInfo.ppEnabledLayerNames = validationLayers.data();
+			VkDebugUtilsMessengerCreateInfoEXT debugCreateInfo;
+			PopulateDebugMessengerCreateInfo(debugCreateInfo);
+			createInfo.pNext = &debugCreateInfo;
 		}
 		else
+		{
 			createInfo.enabledLayerCount = 0;
+			createInfo.pNext = nullptr;	
+		}
 		
 		//Thank you vulkan for having actual fucking function names not DXGI11_CREATE_FACTORY bullshit
 		VkResult result = vkCreateInstance(&createInfo, nullptr, &m_instance);
@@ -68,6 +74,23 @@ private:
 		if (enableValidationLayers)
 			SetupDebugManager();
 	}
+
+	void PopulateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo)
+	{
+		createInfo = {};
+		createInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
+		createInfo.messageSeverity =
+			//VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT |
+			//VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | 
+			VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
+		createInfo.messageType =
+			VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT |
+			VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT |
+			VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
+
+		createInfo.pfnUserCallback = DebugCallback;
+	}
+	
 	void InitWindow()
 	{
 		glfwInit();
@@ -77,7 +100,7 @@ private:
 		glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
 		//monitor = what monitor you want to launch the program on, share pointer is just for opengl.
-		m_window = glfwCreateWindow(WIDTH, HEIGHT, "Vulkan Window", nullptr, nullptr);
+		m_window = glfwCreateWindow(WIDTH, HEIGHT, "Triangle Boi!", nullptr, nullptr);
 	}
 	void UpdateLoop()
 	{
@@ -157,25 +180,13 @@ private:
 		if (!enableValidationLayers)
 			return;
 
-		VkDebugUtilsMessengerCreateInfoEXT createInfoExt{};
-		createInfoExt.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
-		createInfoExt.messageSeverity =
-			VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT |
-			VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | 
-			VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
-		createInfoExt.messageType =
-			VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT |
-			VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT |
-			VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
-
-		createInfoExt.pfnUserCallback = DebugCallback;
+		VkDebugUtilsMessengerCreateInfoEXT createInfoExt;
+		PopulateDebugMessengerCreateInfo(createInfoExt);
 		//Void pointer for pUserData so we could gather everything about the users pc and give it to the callback for instance.
 		createInfoExt.pUserData = nullptr;
 		
 		if (CreateDebugUtilsMessengerEXT(m_instance, &createInfoExt, nullptr, &debugMessenger) != VK_SUCCESS)
-		{
 			throw std::runtime_error("Could not setup debug messenger");
-		}
 	}
 	//VKAPI_CALL= __stdcall on windows (just tells the stack how to use the function.
 	//VKAPI_ATTR = nothing on windows so we are actually just doing
