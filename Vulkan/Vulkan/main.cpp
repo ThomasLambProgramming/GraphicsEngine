@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <vector>
 #include <cstring>
+#include <optional>
 
 class BaseApplication
 {
@@ -21,6 +22,9 @@ private:
 	void InitVulkan()
 	{
 		CreateInstance();
+		SetupDebugManager();
+		SelectPhysicalDevice();
+		CreateLogicalDevice();
 	}
 	void CreateInstance()
 	{
@@ -49,8 +53,8 @@ private:
 		
 		if (enableValidationLayers)
 		{
-			createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
-			createInfo.ppEnabledLayerNames = validationLayers.data();
+			createInfo.enabledLayerCount = static_cast<uint32_t>(ValidationLayers.size());
+			createInfo.ppEnabledLayerNames = ValidationLayers.data();
 			VkDebugUtilsMessengerCreateInfoEXT debugCreateInfo;
 			PopulateDebugMessengerCreateInfo(debugCreateInfo);
 			createInfo.pNext = &debugCreateInfo;
@@ -71,24 +75,86 @@ private:
 		else if (result != VK_SUCCESS)
 			throw std::runtime_error("Failed to create Vulkan Instance");
 
-		if (enableValidationLayers)
-			SetupDebugManager();
 	}
-
-	void PopulateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo)
+	void CreateLogicalDevice()
 	{
-		createInfo = {};
-		createInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
-		createInfo.messageSeverity =
-			//VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT |
-			//VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | 
-			VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
-		createInfo.messageType =
-			VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT |
-			VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT |
-			VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
+		QueueFamilyIndicies indicies = FindQueueFamilies(physicalDevice);
+		VkDeviceQueueCreateInfo queueCreateInfo;
+		queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
+		queueCreateInfo.queueFamilyIndex = indicies.graphicsFamily.value();
+		queueCreateInfo.queueCount = 1;
+		float queuePriority = 1.0f;
+		queueCreateInfo.pQueuePriorities = &queuePriority;
+		VkPhysicalDeviceFeatures deviceFeatures{};
 
-		createInfo.pfnUserCallback = DebugCallback;
+		VkDeviceCreateInfo createInfo{};
+		createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
+		createInfo.pQueueCreateInfos = &queueCreateInfo;
+		createInfo.queueCreateInfoCount = 1;
+		createInfo.pEnabledFeatures = &deviceFeatures;
+
+		
+		
+	}
+	void SelectPhysicalDevice()
+	{
+		uint32_t deviceCount = 0;
+		vkEnumeratePhysicalDevices(m_instance, &deviceCount, nullptr);
+		if (deviceCount == 0)
+			throw std::runtime_error("There are no devices that support vulkan!");
+		std::vector<VkPhysicalDevice> physicalDevices(deviceCount);
+		vkEnumeratePhysicalDevices(m_instance, &deviceCount, physicalDevices.data());
+
+		for (const auto& device : physicalDevices)
+		{
+			if (IsPhysicalDeviceSuitable(device))
+			{
+				physicalDevice = device;
+				break;
+			}
+		}
+		if (physicalDevice == VK_NULL_HANDLE)
+			throw std::runtime_error("Could not find suitable gpu");
+	}
+	bool IsPhysicalDeviceSuitable(VkPhysicalDevice a_device)
+	{
+		VkPhysicalDeviceProperties deviceProperties;
+		VkPhysicalDeviceFeatures deviceFeatures;
+		vkGetPhysicalDeviceProperties(a_device, &deviceProperties);
+		vkGetPhysicalDeviceFeatures(a_device, &deviceFeatures);
+
+		QueueFamilyIndicies indicies = FindQueueFamilies(a_device);
+		
+		//we only want discrete gpus and if they are capable of geometry shaders. and it can support queues that take graphics commands.
+		return indicies.isComplete() && deviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU && deviceFeatures.geometryShader;
+
+		//Small note. as the tutorial mentions you can rank physical devices by score and use a std::multimap<int, VkPhysicalDevice> to auto sort by highest score.
+		//didnt know multimap was a thing that is very cool.
+	}
+	struct QueueFamilyIndicies
+	{
+		//using optional since uint32_t will always be a value but with optional it will be blank until we have a value for it
+		std::optional<uint32_t> graphicsFamily;
+		bool isComplete () {return graphicsFamily.has_value();}
+	};
+	QueueFamilyIndicies FindQueueFamilies(VkPhysicalDevice a_device)
+	{
+		QueueFamilyIndicies indicies;
+		uint32_t queueFamilyCount = 0;
+		vkGetPhysicalDeviceQueueFamilyProperties(a_device, &queueFamilyCount, nullptr);
+		std::vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
+		vkGetPhysicalDeviceQueueFamilyProperties(a_device, &queueFamilyCount, queueFamilies.data());
+
+		int i = 0;
+		for (const auto& queueFamily : queueFamilies)
+		{
+			if (indicies.isComplete())
+				break;
+			if (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT)
+				indicies.graphicsFamily = i;
+			i++;
+		}
+		return indicies;
 	}
 	
 	void InitWindow()
@@ -113,12 +179,14 @@ private:
 	{
 		if (enableValidationLayers)
 		{
-			DestroyDebugUtilsMessengerEXT(m_instance, debugMessenger, nullptr);
+			DestroyDebugUtilsMessengerEXT(m_instance, DebugMessenger, nullptr);
 		}
 		vkDestroyInstance(m_instance, nullptr);
 		glfwDestroyWindow(m_window);
 		glfwTerminate();
 	}
+
+#pragma region ValidationAndExtensions
 	bool CheckValidationLayerSupport()
 	{
 		uint32_t layerCount;
@@ -126,7 +194,7 @@ private:
 		std::vector<VkLayerProperties> availableLayers(layerCount);
 		vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
 
-		for (const char* layerName : validationLayers)
+		for (const char* layerName : ValidationLayers)
 		{
 			bool layerFound = false;
 			for (const VkLayerProperties& layerProperties : availableLayers)
@@ -154,14 +222,8 @@ private:
 			extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
 		return extensions;
 	}
-
-	void DestroyDebugUtilsMessengerEXT(VkInstance a_instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator)
-	{
-		auto func = (PFN_vkDestroyDebugUtilsMessengerEXT)vkGetInstanceProcAddr(a_instance, "vkDestroyDebugUtilsMessengerEXT");
-		if (func != nullptr)
-			func(a_instance, debugMessenger, pAllocator);
-	}
-
+#pragma endregion 
+#pragma region Debugging
 	VkResult CreateDebugUtilsMessengerEXT(
 		VkInstance a_instance,
 		const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo,
@@ -175,6 +237,7 @@ private:
 		else
 			return VK_ERROR_EXTENSION_NOT_PRESENT;
 	}
+	
 	void SetupDebugManager()
 	{
 		if (!enableValidationLayers)
@@ -185,8 +248,31 @@ private:
 		//Void pointer for pUserData so we could gather everything about the users pc and give it to the callback for instance.
 		createInfoExt.pUserData = nullptr;
 		
-		if (CreateDebugUtilsMessengerEXT(m_instance, &createInfoExt, nullptr, &debugMessenger) != VK_SUCCESS)
+		if (CreateDebugUtilsMessengerEXT(m_instance, &createInfoExt, nullptr, &DebugMessenger) != VK_SUCCESS)
 			throw std::runtime_error("Could not setup debug messenger");
+	}
+	
+	void DestroyDebugUtilsMessengerEXT(VkInstance a_instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator)
+	{
+		auto func = (PFN_vkDestroyDebugUtilsMessengerEXT)vkGetInstanceProcAddr(a_instance, "vkDestroyDebugUtilsMessengerEXT");
+		if (func != nullptr)
+			func(a_instance, debugMessenger, pAllocator);
+	}
+	
+	void PopulateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo)
+	{
+		createInfo = {};
+		createInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
+		createInfo.messageSeverity =
+			//VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT |
+			//VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | 
+			VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
+		createInfo.messageType =
+			VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT |
+			VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT |
+			VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
+
+		createInfo.pfnUserCallback = DebugCallback;
 	}
 	//VKAPI_CALL= __stdcall on windows (just tells the stack how to use the function.
 	//VKAPI_ATTR = nothing on windows so we are actually just doing
@@ -200,19 +286,21 @@ private:
 		std::cerr << "Validation Layer" << pCallbackData->pMessage << std::endl;
 		return VK_FALSE;
 	}
-	VkDebugUtilsMessengerEXT debugMessenger;
+	VkDebugUtilsMessengerEXT DebugMessenger;
+#pragma endregion 
 	
-	
-	const std::vector<const char*> validationLayers = {
+	const std::vector<const char*> ValidationLayers = {
 		"VK_LAYER_KHRONOS_validation"
 	};
+	
 #ifdef NDEBUG
 	const bool enableValidationLayers = false;
 #else
 	const bool enableValidationLayers = true;
 #endif
 	
-	
+	VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
+	VkDevice m_device;
 	VkInstance m_instance;
 	uint32_t WIDTH = 800;
 	uint32_t HEIGHT = 600;
