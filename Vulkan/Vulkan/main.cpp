@@ -92,9 +92,20 @@ private:
 		createInfo.pQueueCreateInfos = &queueCreateInfo;
 		createInfo.queueCreateInfoCount = 1;
 		createInfo.pEnabledFeatures = &deviceFeatures;
+		createInfo.enabledExtensionCount = 0;
+		
+		if (enableValidationLayers)
+		{
+			createInfo.enabledLayerCount = static_cast<uint32_t>(ValidationLayers.size());
+			createInfo.ppEnabledLayerNames = ValidationLayers.data();
+		}
+		else
+			createInfo.enabledLayerCount = 0;
 
-		
-		
+		if (vkCreateDevice(physicalDevice, &createInfo, nullptr, &m_device) != VK_SUCCESS)
+			throw std::runtime_error("Failed to create logical device for vulkan!");
+
+		vkGetDeviceQueue(m_device, indicies.graphicsFamily.value(), 0, &m_graphicsQueue);
 	}
 	void SelectPhysicalDevice()
 	{
@@ -181,6 +192,7 @@ private:
 		{
 			DestroyDebugUtilsMessengerEXT(m_instance, DebugMessenger, nullptr);
 		}
+		vkDestroyDevice(m_device, nullptr);
 		vkDestroyInstance(m_instance, nullptr);
 		glfwDestroyWindow(m_window);
 		glfwTerminate();
@@ -298,7 +310,9 @@ private:
 #else
 	const bool enableValidationLayers = true;
 #endif
-	
+
+	VkSurfaceKHR m_surface;
+	VkQueue m_graphicsQueue;
 	VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
 	VkDevice m_device;
 	VkInstance m_instance;
