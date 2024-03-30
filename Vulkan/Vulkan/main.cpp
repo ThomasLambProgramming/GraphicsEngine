@@ -24,7 +24,7 @@ private:
 		CreateInstance();
 		SetupDebugManager();
 		SelectPhysicalDevice();
-		CreateLogicalDevice();
+		//CreateLogicalDevice();
 	}
 	void CreateInstance()
 	{
@@ -311,7 +311,7 @@ private:
 	const bool enableValidationLayers = true;
 #endif
 
-	VkSurfaceKHR m_surface;
+	//VkSurfaceKHR m_surface;
 	VkQueue m_graphicsQueue;
 	VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
 	VkDevice m_device;
