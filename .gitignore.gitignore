@@ -30,6 +30,7 @@
 *.suo
 *.user
 .vs/
+[Oo]penGl/
 [Bb]in/
 [Oo]bj/
 _UpgradeReport_Files/

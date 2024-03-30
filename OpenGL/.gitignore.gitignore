@@ -53,6 +53,7 @@ Desktop.ini
 mono_crash.*
 
 # Build results
+[Oo]penGl/
 [Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/
