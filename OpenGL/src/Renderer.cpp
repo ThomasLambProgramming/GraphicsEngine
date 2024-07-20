@@ -1,6 +1,5 @@
 #include "Renderer.h"
 #include <iostream>
-
 void GLClearError()
 {
     while (glGetError() != GL_NO_ERROR);

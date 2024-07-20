@@ -74,6 +74,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -102,7 +103,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\Libraries\glfw64\include;$(SolutionDir)..\Libraries\;$(SolutionDir)..\Libraries\glew\include;$(SolutionDir)\src\tests;$(SolutionDir)src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\Libraries\glfw64\include;$(SolutionDir)..\Libraries\;$(SolutionDir)..\Libraries\glew\include;$(SolutionDir)\src\tests;$(SolutionDir)src\;%(AdditionalIncludeDirectories);$(SolutionDir)..\Libraries\cgltf\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -602,22 +603,6 @@
     <ClInclude Include="..\Libraries\glm\vec3.hpp" />
     <ClInclude Include="..\Libraries\glm\vec4.hpp" />
     <ClInclude Include="..\Libraries\glm\vector_relational.hpp" />
-    <ClInclude Include="..\Libraries\imgui\imgui\imconfig.h" />
-    <ClInclude Include="..\Libraries\imgui\imgui\imgui.h" />
-    <ClInclude Include="..\Libraries\imgui\imgui\imgui_impl_glfw.h" />
-    <ClInclude Include="..\Libraries\imgui\imgui\imgui_impl_opengl3.h" />
-    <ClInclude Include="..\Libraries\imgui\imgui\imgui_internal.h" />
-    <ClInclude Include="..\Libraries\imgui\imgui\imstb_rectpack.h" />
-    <ClInclude Include="..\Libraries\imgui\imgui\imstb_textedit.h" />
-    <ClInclude Include="..\Libraries\imgui\imgui\imstb_truetype.h" />
-    <ClInclude Include="..\Libraries\stb_image\stb_image\stb_image.h" />
-    <ClInclude Include="..\Libraries\VertexBuffer.h" />
-    <ClInclude Include="..\Libraries\VertexArray.h" />
-    <ClInclude Include="..\Libraries\VertexBufferLayout.h" />
-    <ClInclude Include="..\Libraries\Texture.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="src\vendor\glm\CMakeLists.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

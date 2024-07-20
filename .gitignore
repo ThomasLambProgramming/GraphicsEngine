@@ -5,6 +5,7 @@
 
 # Common IntelliJ Platform excludes
 
+
 # User specific
 .[Ii]dea/
 **/.idea/**/workspace.xml
@@ -30,7 +31,10 @@
 *.suo
 *.user
 .vs/
+[Ll]ibraries/
 [Oo]penGl/
+x64/
+SampleAssets/
 [Bb]in/
 [Oo]bj/
 _UpgradeReport_Files/
