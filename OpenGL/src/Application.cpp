@@ -1,114 +1,101 @@
-#include "IndexBuffer.h"
-#include "Renderer.h"
-#include "Shader.h"
-#include "Texture.h"
-#include "VertexArray.h"
-#include "VertexBuffer.h"
-#include "VertexBufferLayout.h"
-#include "glm/glm.hpp"
-#include "glm/gtc/matrix_transform.hpp"
-#include "imgui/imgui.h"
+#include "Application.h"
 #include "imgui/imgui_impl_glfw.h"
 #include "imgui/imgui_impl_opengl3.h"
-#include "tests/TestClearColor.h"
-#include <GL/glew.h>
-#include <fstream>
-#include <glfw/glfw3.h>
 #include <iostream>
-#include <sstream>
-#include <string>
+#include <GL/glew.h>
 
-int main(void) {
-  GLFWwindow *window;
+void Application::InitApplication()
+{
+    CreateGlfwWindow();
 
-  /* Initialize the library */
-  // for some reason to use the library properly
-  // it must be init
-  if (!glfwInit())
-    return -1;
-
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-  glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-  // the context is basically the thread (the application /process can have
-  // multiple contexts for multiple threads) when the context dies so does
-  // opengl also every opengl function will call the active context and not ones
-  // that are not current
-  /* Create a windowed mode window and its OpenGL context */
-  window = glfwCreateWindow(960, 540, "Hello World", NULL, NULL);
-
-  // if the window did not open terminate
-  if (!window) {
-    glfwTerminate();
-    return -1;
-  }
-
-  /* Make the window's context current */
-  glfwMakeContextCurrent(window);
-  // glfw has rendered and being rendered buffers (avoid screen tearing etc)
-  glfwSwapInterval(1);
-
-  if (glewInit() != GLEW_OK)
-    std::cout << "REEEEEEEEEEEEEE GLEW NO WORK REEEEEEEEEEEEEEEE" << std::endl;
-
-  // displays the full version of opengl / the manufacturer(or person who did
-  // the implementation)
-  std::cout << glGetString(GL_VERSION) << std::endl;
-  // shows what is actually rendering the window (Intel hd graphics / 1080ti)
-  std::cout << glGetString(GL_RENDERER) << std::endl;
-  {
+    if (glewInit() != GLEW_OK)
+        std::cout << "Glew did not init" << std::endl;
+    
+    SetupImgui();
+    
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
+    // displays the full version of opengl / the manufacturer (or person who did the implementation)
+    std::cout << glGetString(GL_VERSION) << std::endl;
+    // shows what is actually rendering the window (Intel hd graphics / 1080ti etc.)
+    std::cout << glGetString(GL_RENDERER) << std::endl;
+}
 
-    Renderer renderer;
-
-    // this is all imgui shit, probs should check how and what all this does
-    // lmao why do i not check functions sometimes (i do understand most of it,
-    // just not all)
-    //  Setup Dear ImGui context
-    // init
+void Application::SetupImgui()
+{
+    // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
-    ImGuiIO &io = ImGui::GetIO();
-    (void)io;
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
     // Setup Platform/Renderer backends
-    ImGui_ImplGlfw_InitForOpenGL(window, true);
-    ImGui_ImplOpenGL3_Init(
-        (char *)glGetString(GL_NUM_SHADING_LANGUAGE_VERSIONS));
+    ImGui_ImplGlfw_InitForOpenGL(glfwWindow, true);
+    ImGui_ImplOpenGL3_Init((char *)glGetString(GL_NUM_SHADING_LANGUAGE_VERSIONS));
+}
 
-    test::TestClearColor test;
+bool Application::CreateGlfwWindow()
+{
+    if (!glfwInit())
+        return false;
 
-    /* Loop until the user closes the window */
-    while (!glfwWindowShouldClose(window)) {
-      renderer.Clear();
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-      test.OnUpdate(0.0f);
-      test.OnRender();
+    glfwWindow = glfwCreateWindow(windowWidth, windowHeight, windowTitle, nullptr, nullptr);
 
-      // New Frame
+    // if the window did not open terminate
+    if (!glfwWindow)
+    {
+        glfwTerminate();
+        return false;
+    }
+
+    glfwMakeContextCurrent(glfwWindow);
+    glfwSwapInterval(1);
+    
+    return true;
+}
+
+void Application::RenderImgui()
+{
       ImGui_ImplOpenGL3_NewFrame();
       ImGui_ImplGlfw_NewFrame();
-      ImGui::NewFrame();
-      test.OnImGuiRender();
-
       // Render
       ImGui::Render();
       ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+}
 
-      /* Swap front and back buffers */
-      glfwSwapBuffers(window);
-      /* Poll for and process events */
-      glfwPollEvents();
+void Application::RenderLoop()
+{
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+
+    //Do main render loop here.
+
+    RenderImgui();
+    /* Swap front and back buffers */
+    glfwSwapBuffers(glfwWindow);
+    /* Poll for and process events */
+    glfwPollEvents();
+}
+
+bool Application::UpdateLoop()
+{
+    while (!glfwWindowShouldClose(glfwWindow))
+    {
+      
+        
+
+        RenderLoop();
     }
+    return true;
+}
+
+void Application::ShutDown()
+{
     // Shutdown
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
-  }
-
-  glfwTerminate();
-  return 0;
+    glfwTerminate();
 }
