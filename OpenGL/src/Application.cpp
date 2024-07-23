@@ -17,8 +17,8 @@ void Application::InitApplication()
     if (glewInit() != GLEW_OK)
         std::cout << "Glew did not init" << std::endl;
     
-    glEnable(GL_CULL_FACE);
-    glEnable(GL_DEPTH_TEST);
+    //glEnable(GL_CULL_FACE);
+    //glEnable(GL_DEPTH_TEST);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
     // displays the full version of opengl / the manufacturer (or person who did the implementation)
@@ -36,6 +36,31 @@ void Application::InitApplication()
 
     testShader = Shader("D:/PersonalProjects/GraphicsEngine/OpenGL/shaders/simple.vert", "D:/PersonalProjects/GraphicsEngine/OpenGL/shaders/simple.frag", nullptr);
     testModel.LoadFile("D:/PersonalProjects/GraphicsEngine/SampleAssets/Models/Duck/glTF/duck.gltf");
+
+    float vertices[] = {
+    -0.5f, -0.5f, 0.0f,
+     0.5f, -0.5f, 0.0f,
+     0.0f,  0.5f, 0.0f
+    };
+    unsigned int indices[] = {  // note that we start from 0!
+        0, 1, 2,  // first Triangle
+    };
+
+    glGenVertexArrays(1, &VAO);
+    glGenBuffers(1, &VBO);
+    glGenBuffers(1, &EBO);
+    
+    glBindVertexArray(VAO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER,0);
+    glBindVertexArray(0);
 }
 
 void Application::SetupImgui()
@@ -95,13 +120,19 @@ void Application::RenderImgui()
 
 void Application::RenderLoop()
 {
-	glClearColor(1,0,0,1);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+	glClearColor(213 / 255.0f,248 / 255.0f,255 / 255.0f,1);
+	glClear(GL_COLOR_BUFFER_BIT);
 
     //Main Render Loop -------------------
 
+    
     glUseProgram(testShader.ID);
-    testModel.Draw(testShader);
+    glBindVertexArray(VAO);
+    testShader.setVec4("triangleColor", 1,0,1,1 );
+    //testModel.Draw(testShader);
+
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    
     
     //End Main Render Loop -------------------
 
