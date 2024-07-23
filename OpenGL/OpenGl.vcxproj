@@ -101,16 +101,16 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>GLEW_STATIC;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GLEW_STATIC;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS; ASSIMP_DLL</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\Libraries\glfw64\include;$(SolutionDir)..\Libraries\;$(SolutionDir)..\Libraries\glew\include;$(SolutionDir)\src\tests;$(SolutionDir)src\;%(AdditionalIncludeDirectories);$(SolutionDir)..\Libraries\cgltf\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\Libraries\glfw64\include;$(SolutionDir)..\Libraries\;$(SolutionDir)..\Libraries\glew\include;$(SolutionDir)\src\tests;$(SolutionDir)src\;%(AdditionalIncludeDirectories);$(SolutionDir)..\Libraries\cgltf\;$(SolutionDir)..\Libraries\assimp\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalIncludeDirectories>$(SolutionDir)..\Libraries\glfw64\include;$(SolutionDir)..\Libraries\;$(SolutionDir)..\Libraries\glew\include;$(SolutionDir)\src\tests;$(SolutionDir)src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib; User32.lib; Gdi32.lib; Shell32.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)..\Libraries\glew\lib\Release\x64\;$(ProjectDir)..\Libraries\glfw64\lib-vc2022\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib; User32.lib; Gdi32.lib; Shell32.lib; assimp-vc143-mtd.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\Libraries\glew\lib\Release\x64\;$(ProjectDir)..\Libraries\glfw64\lib-vc2022\;%(AdditionalLibraryDirectories);$(ProjectDir)..\Libraries\assimp\</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -153,12 +153,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\Shader.cpp" />
+    <ClCompile Include="src\Mesh.cpp" />
+    <ClCompile Include="src\Model.cpp" />
     <ClCompile Include="src\Application.cpp" />
-    <ClCompile Include="src\IndexBuffer.cpp" />
-    <ClCompile Include="src\Renderer.cpp" />
-    <ClCompile Include="src\tests\TestClearColor.cpp" />
     <ClCompile Include="..\Libraries\glm\detail\glm.cpp" />
     <ClCompile Include="..\Libraries\imgui\imgui.cpp" />
     <ClCompile Include="..\Libraries\imgui\imgui_demo.cpp" />
@@ -168,9 +167,7 @@
     <ClCompile Include="..\Libraries\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\Libraries\imgui\imgui_widgets.cpp" />
     <ClCompile Include="..\Libraries\stb_image\stb_image.cpp" />
-    <ClCompile Include="src\VertexBuffer.cpp" />
-    <ClCompile Include="src\VertexArray.cpp" />
-    <ClCompile Include="src\Texture.cpp" />
+    <ClCompile Include="src\Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\Basic.shader" />
@@ -315,11 +312,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Application.h" />
+    <ClInclude Include="src\Camera.h" />
+    <ClInclude Include="src\Mesh.h" />
+    <ClInclude Include="src\Model.h" />
     <ClInclude Include="src\Shader.h" />
-    <ClInclude Include="src\IndexBuffer.h" />
-    <ClInclude Include="src\Renderer.h" />
-    <ClInclude Include="src\tests\Test.h" />
-    <ClInclude Include="src\tests\TestClearColor.h" />
     <ClInclude Include="..\Libraries\glm\common.hpp" />
     <ClInclude Include="..\Libraries\glm\detail\compute_common.hpp" />
     <ClInclude Include="..\Libraries\glm\detail\compute_vector_relational.hpp" />
