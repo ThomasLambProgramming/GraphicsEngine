@@ -28,6 +28,8 @@ void Application::InitApplication()
     
     SetupImgui();
 
+    glEnable(GL_DEPTH_TEST);
+
     mainCamera = new Camera();
 	mainCamera->SetID(0);
 	mainCamera->SetStationary(true);
@@ -111,6 +113,11 @@ void Application::RenderImgui()
     ImGui::NewFrame();
     // Render
     ImGui::Begin("Test");
+
+    ImGui::SliderFloat("X", &offset.x, -100, 100);
+    ImGui::SliderFloat("Y", &offset.y, -100, 100);
+    ImGui::SliderFloat("Z", &offset.z, -100, 100);
+    
     ImGui::End();
     
     ImGui::EndFrame();
@@ -121,17 +128,21 @@ void Application::RenderImgui()
 void Application::RenderLoop()
 {
 	glClearColor(213 / 255.0f,248 / 255.0f,255 / 255.0f,1);
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     //Main Render Loop -------------------
 
-    
-    glUseProgram(testShader.ID);
+    testShader.Use();
     glBindVertexArray(VAO);
-    testShader.setVec4("triangleColor", 1,0,1,1 );
-    //testModel.Draw(testShader);
+    
+    testShader.setVec4("triangleColor", 0,0,1,1 );
+    testShader.setMat4("worldMatrix", glm::rotate(glm::mat4(1.0f), glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f)));
+    testShader.setMat4("viewMatrix", glm::translate(glm::mat4(1.0f), offset));
+    testShader.setMat4("projectionMatrix",  glm::perspective(glm::radians(45.0f), 1280 / 720.0f, 0.1f, 100.0f));
+    
+    //glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    testModel.Draw(testShader);
 
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     
     
     //End Main Render Loop -------------------
