@@ -5,6 +5,9 @@
 #include <iostream>
 #include "Camera.h"
 #include "Mesh.h"
+#include "Windows.h"
+
+#include <GLFW/glfw3native.h>
 
 Application::Application()
 {
@@ -17,8 +20,8 @@ void Application::InitApplication()
     if (glewInit() != GLEW_OK)
         std::cout << "Glew did not init" << std::endl;
     
-    //glEnable(GL_CULL_FACE);
-    //glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
+    glEnable(GL_DEPTH_TEST);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
     // displays the full version of opengl / the manufacturer (or person who did the implementation)
@@ -31,14 +34,19 @@ void Application::InitApplication()
     glEnable(GL_DEPTH_TEST);
 
     mainCamera = new Camera();
-	mainCamera->SetID(0);
-	mainCamera->SetStationary(true);
-	mainCamera->SetPosition({ 0.0f,0.0f,-10.0f });
-	mainCamera->SetRotation(0.0f, 0.0f);
+	mainCamera->id = 0;
+	mainCamera->position = glm::vec3(230.0f,160.0f,165.0f);
+    //Set Rotation to 0;
+	mainCamera->phi = 220;
+    mainCamera->theta = 20;
 
     testShader = Shader("D:/PersonalProjects/GraphicsEngine/OpenGL/shaders/simple.vert", "D:/PersonalProjects/GraphicsEngine/OpenGL/shaders/simple.frag", nullptr);
     testModel.LoadFile("D:/PersonalProjects/GraphicsEngine/SampleAssets/Models/Duck/glTF/duck.gltf");
 
+    //Getting time to avoid 0 values;
+    previousTime = glfwGetTime();
+    glfwSetInputMode(glfwWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    
     float vertices[] = {
     -0.5f, -0.5f, 0.0f,
      0.5f, -0.5f, 0.0f,
@@ -80,6 +88,7 @@ void Application::SetupImgui()
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
     glViewport(0, 0, width, height);
+    
 }  
 
 bool Application::CreateGlfwWindow()
@@ -111,12 +120,23 @@ void Application::RenderImgui()
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
+    
     // Render
     ImGui::Begin("Test");
+    //ImGui::SliderFloat("Example", &floatToAdjust, -100, 100);
+    ImGui::SliderFloat("Camera Turn Speed", &mainCamera->turnSpeed, 0.1, 100);
+    ImGui::SliderFloat("Camera Movement Speed", &mainCamera->movementSpeed, 1, 1000);
 
-    ImGui::SliderFloat("X", &offset.x, -100, 100);
-    ImGui::SliderFloat("Y", &offset.y, -100, 100);
-    ImGui::SliderFloat("Z", &offset.z, -100, 100);
+    float cameraPosition[3];
+    cameraPosition[0] = floor(mainCamera->position.x * 100) / 100;
+    cameraPosition[1] = floor(mainCamera->position.y * 100) / 100;
+    cameraPosition[2] = floor(mainCamera->position.z * 100) / 100;
+    ImGui::SliderFloat3("Camera Position", cameraPosition, -1000, 1000);
+
+    float cameraRotation[2];
+    cameraRotation[0] = floor(mainCamera->theta * 100) / 100;
+    cameraRotation[1] = floor(mainCamera->phi * 100) / 100;
+    ImGui::SliderFloat2("Camera Rotation", cameraRotation, -1000, 1000);
     
     ImGui::End();
     
@@ -134,16 +154,12 @@ void Application::RenderLoop()
 
     testShader.Use();
     glBindVertexArray(VAO);
-    
     testShader.setVec4("triangleColor", 0,0,1,1 );
-    testShader.setMat4("worldMatrix", glm::rotate(glm::mat4(1.0f), glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f)));
-    testShader.setMat4("viewMatrix", glm::translate(glm::mat4(1.0f), offset));
-    testShader.setMat4("projectionMatrix",  glm::perspective(glm::radians(45.0f), 1280 / 720.0f, 0.1f, 100.0f));
-    
-    //glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    testShader.setMat4("worldMatrix", glm::rotate(glm::mat4(1.0f), glm::radians(1.0f), glm::vec3(1.0f, 0.0f, 0.0f)));
+    glm::mat4 viewMatrix = mainCamera->GetViewMatrix();
+    testShader.setMat4("viewMatrix", viewMatrix);
+    testShader.setMat4("projectionMatrix",  glm::perspective(glm::radians(45.0f), 1280 / 720.0f, 0.1f, 10000.0f));
     testModel.Draw(testShader);
-
-    
     
     //End Main Render Loop -------------------
 
@@ -158,7 +174,16 @@ bool Application::UpdateLoop()
 {
     while (!glfwWindowShouldClose(glfwWindow))
     {
+        currentTime = glfwGetTime();
+        deltaTime = (float)(currentTime - previousTime);
+        previousTime = currentTime;
+
+
+        mainCamera->Update(deltaTime, glfwWindow);
         RenderLoop();
+
+        if (glfwGetKey(glfwWindow, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+            break;
     }
     return true;
 }
