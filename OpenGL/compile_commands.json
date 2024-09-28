@@ -1,0 +1,87 @@
+[
+  {
+    "directory": "D:\\PersonalProjects\\GraphicsEngine\\OpenGL",
+    "command": "\"C:\\Windows\\system32\\CL.exe\" \/c \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\..\\Libraries\\glfw64\\include \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\..\\Libraries\\ \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\..\\Libraries\\glew\\include \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\\\src\\tests \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\src\\ \/nologo \/W3 \/WX- \/diagnostics:column \/Od \/D GLEW_STATIC \/D _DEBUG \/D _CONSOLE \/D _UNICODE \/D UNICODE \/EHsc \/RTC1 \/MDd \/GS \/fp:precise \/permissive- \/Fa\"OpenGl\\x64\\Debug\\\\\" \/Fo\"OpenGl\\x64\\Debug\\\\\" \/Gd --target=amd64-pc-windows-msvc;  \/TP \"D:\\PersonalProjects\\GraphicsEngine\\OpenGL\\src\\Shader.cpp\"",
+    "file": "D:\\PersonalProjects\\GraphicsEngine\\OpenGL\\src\\Shader.cpp"
+  },
+  {
+    "directory": "D:\\PersonalProjects\\GraphicsEngine\\OpenGL",
+    "command": "\"C:\\Windows\\system32\\CL.exe\" \/c \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\..\\Libraries\\glfw64\\include \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\..\\Libraries\\ \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\..\\Libraries\\glew\\include \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\\\src\\tests \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\src\\ \/nologo \/W3 \/WX- \/diagnostics:column \/Od \/D GLEW_STATIC \/D _DEBUG \/D _CONSOLE \/D _UNICODE \/D UNICODE \/EHsc \/RTC1 \/MDd \/GS \/fp:precise \/permissive- \/Fa\"OpenGl\\x64\\Debug\\\\\" \/Fo\"OpenGl\\x64\\Debug\\\\\" \/Gd --target=amd64-pc-windows-msvc;  \/TP \"D:\\PersonalProjects\\GraphicsEngine\\OpenGL\\src\\Application.cpp\"",
+    "file": "D:\\PersonalProjects\\GraphicsEngine\\OpenGL\\src\\Application.cpp"
+  },
+  {
+    "directory": "D:\\PersonalProjects\\GraphicsEngine\\OpenGL",
+    "command": "\"C:\\Windows\\system32\\CL.exe\" \/c \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\..\\Libraries\\glfw64\\include \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\..\\Libraries\\ \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\..\\Libraries\\glew\\include \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\\\src\\tests \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\src\\ \/nologo \/W3 \/WX- \/diagnostics:column \/Od \/D GLEW_STATIC \/D _DEBUG \/D _CONSOLE \/D _UNICODE \/D UNICODE \/EHsc \/RTC1 \/MDd \/GS \/fp:precise \/permissive- \/Fa\"OpenGl\\x64\\Debug\\\\\" \/Fo\"OpenGl\\x64\\Debug\\\\\" \/Gd --target=amd64-pc-windows-msvc;  \/TP \"D:\\PersonalProjects\\GraphicsEngine\\OpenGL\\src\\IndexBuffer.cpp\"",
+    "file": "D:\\PersonalProjects\\GraphicsEngine\\OpenGL\\src\\IndexBuffer.cpp"
+  },
+  {
+    "directory": "D:\\PersonalProjects\\GraphicsEngine\\OpenGL",
+    "command": "\"C:\\Windows\\system32\\CL.exe\" \/c \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\..\\Libraries\\glfw64\\include \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\..\\Libraries\\ \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\..\\Libraries\\glew\\include \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\\\src\\tests \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\src\\ \/nologo \/W3 \/WX- \/diagnostics:column \/Od \/D GLEW_STATIC \/D _DEBUG \/D _CONSOLE \/D _UNICODE \/D UNICODE \/EHsc \/RTC1 \/MDd \/GS \/fp:precise \/permissive- \/Fa\"OpenGl\\x64\\Debug\\\\\" \/Fo\"OpenGl\\x64\\Debug\\\\\" \/Gd --target=amd64-pc-windows-msvc;  \/TP \"D:\\PersonalProjects\\GraphicsEngine\\OpenGL\\src\\Renderer.cpp\"",
+    "file": "D:\\PersonalProjects\\GraphicsEngine\\OpenGL\\src\\Renderer.cpp"
+  },
+  {
+    "directory": "D:\\PersonalProjects\\GraphicsEngine\\OpenGL",
+    "command": "\"C:\\Windows\\system32\\CL.exe\" \/c \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\..\\Libraries\\glfw64\\include \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\..\\Libraries\\ \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\..\\Libraries\\glew\\include \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\\\src\\tests \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\src\\ \/nologo \/W3 \/WX- \/diagnostics:column \/Od \/D GLEW_STATIC \/D _DEBUG \/D _CONSOLE \/D _UNICODE \/D UNICODE \/EHsc \/RTC1 \/MDd \/GS \/fp:precise \/permissive- \/Fa\"OpenGl\\x64\\Debug\\\\\" \/Fo\"OpenGl\\x64\\Debug\\\\\" \/Gd --target=amd64-pc-windows-msvc;  \/TP \"D:\\PersonalProjects\\GraphicsEngine\\OpenGL\\src\\tests\\TestClearColor.cpp\"",
+    "file": "D:\\PersonalProjects\\GraphicsEngine\\OpenGL\\src\\tests\\TestClearColor.cpp"
+  },
+  {
+    "directory": "D:\\PersonalProjects\\GraphicsEngine\\OpenGL",
+    "command": "\"C:\\Windows\\system32\\CL.exe\" \/c \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\..\\Libraries\\glfw64\\include \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\..\\Libraries\\ \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\..\\Libraries\\glew\\include \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\\\src\\tests \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\src\\ \/nologo \/W3 \/WX- \/diagnostics:column \/Od \/D GLEW_STATIC \/D _DEBUG \/D _CONSOLE \/D _UNICODE \/D UNICODE \/EHsc \/RTC1 \/MDd \/GS \/fp:precise \/permissive- \/Fa\"OpenGl\\x64\\Debug\\\\\" \/Fo\"OpenGl\\x64\\Debug\\\\\" \/Gd --target=amd64-pc-windows-msvc;  \/TP \"D:\\PersonalProjects\\GraphicsEngine\\Libraries\\glm\\detail\\glm.cpp\"",
+    "file": "D:\\PersonalProjects\\GraphicsEngine\\Libraries\\glm\\detail\\glm.cpp"
+  },
+  {
+    "directory": "D:\\PersonalProjects\\GraphicsEngine\\OpenGL",
+    "command": "\"C:\\Windows\\system32\\CL.exe\" \/c \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\..\\Libraries\\glfw64\\include \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\..\\Libraries\\ \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\..\\Libraries\\glew\\include \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\\\src\\tests \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\src\\ \/nologo \/W3 \/WX- \/diagnostics:column \/Od \/D GLEW_STATIC \/D _DEBUG \/D _CONSOLE \/D _UNICODE \/D UNICODE \/EHsc \/RTC1 \/MDd \/GS \/fp:precise \/permissive- \/Fa\"OpenGl\\x64\\Debug\\\\\" \/Fo\"OpenGl\\x64\\Debug\\\\\" \/Gd --target=amd64-pc-windows-msvc;  \/TP \"D:\\PersonalProjects\\GraphicsEngine\\Libraries\\imgui\\imgui.cpp\"",
+    "file": "D:\\PersonalProjects\\GraphicsEngine\\Libraries\\imgui\\imgui.cpp"
+  },
+  {
+    "directory": "D:\\PersonalProjects\\GraphicsEngine\\OpenGL",
+    "command": "\"C:\\Windows\\system32\\CL.exe\" \/c \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\..\\Libraries\\glfw64\\include \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\..\\Libraries\\ \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\..\\Libraries\\glew\\include \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\\\src\\tests \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\src\\ \/nologo \/W3 \/WX- \/diagnostics:column \/Od \/D GLEW_STATIC \/D _DEBUG \/D _CONSOLE \/D _UNICODE \/D UNICODE \/EHsc \/RTC1 \/MDd \/GS \/fp:precise \/permissive- \/Fa\"OpenGl\\x64\\Debug\\\\\" \/Fo\"OpenGl\\x64\\Debug\\\\\" \/Gd --target=amd64-pc-windows-msvc;  \/TP \"D:\\PersonalProjects\\GraphicsEngine\\Libraries\\imgui\\imgui_demo.cpp\"",
+    "file": "D:\\PersonalProjects\\GraphicsEngine\\Libraries\\imgui\\imgui_demo.cpp"
+  },
+  {
+    "directory": "D:\\PersonalProjects\\GraphicsEngine\\OpenGL",
+    "command": "\"C:\\Windows\\system32\\CL.exe\" \/c \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\..\\Libraries\\glfw64\\include \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\..\\Libraries\\ \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\..\\Libraries\\glew\\include \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\\\src\\tests \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\src\\ \/nologo \/W3 \/WX- \/diagnostics:column \/Od \/D GLEW_STATIC \/D _DEBUG \/D _CONSOLE \/D _UNICODE \/D UNICODE \/EHsc \/RTC1 \/MDd \/GS \/fp:precise \/permissive- \/Fa\"OpenGl\\x64\\Debug\\\\\" \/Fo\"OpenGl\\x64\\Debug\\\\\" \/Gd --target=amd64-pc-windows-msvc;  \/TP \"D:\\PersonalProjects\\GraphicsEngine\\Libraries\\imgui\\imgui_draw.cpp\"",
+    "file": "D:\\PersonalProjects\\GraphicsEngine\\Libraries\\imgui\\imgui_draw.cpp"
+  },
+  {
+    "directory": "D:\\PersonalProjects\\GraphicsEngine\\OpenGL",
+    "command": "\"C:\\Windows\\system32\\CL.exe\" \/c \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\..\\Libraries\\glfw64\\include \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\..\\Libraries\\ \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\..\\Libraries\\glew\\include \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\\\src\\tests \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\src\\ \/nologo \/W3 \/WX- \/diagnostics:column \/Od \/D GLEW_STATIC \/D _DEBUG \/D _CONSOLE \/D _UNICODE \/D UNICODE \/EHsc \/RTC1 \/MDd \/GS \/fp:precise \/permissive- \/Fa\"OpenGl\\x64\\Debug\\\\\" \/Fo\"OpenGl\\x64\\Debug\\\\\" \/Gd --target=amd64-pc-windows-msvc;  \/TP \"D:\\PersonalProjects\\GraphicsEngine\\Libraries\\imgui\\imgui_impl_glfw.cpp\"",
+    "file": "D:\\PersonalProjects\\GraphicsEngine\\Libraries\\imgui\\imgui_impl_glfw.cpp"
+  },
+  {
+    "directory": "D:\\PersonalProjects\\GraphicsEngine\\OpenGL",
+    "command": "\"C:\\Windows\\system32\\CL.exe\" \/c \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\..\\Libraries\\glfw64\\include \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\..\\Libraries\\ \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\..\\Libraries\\glew\\include \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\\\src\\tests \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\src\\ \/nologo \/W3 \/WX- \/diagnostics:column \/Od \/D GLEW_STATIC \/D _DEBUG \/D _CONSOLE \/D _UNICODE \/D UNICODE \/EHsc \/RTC1 \/MDd \/GS \/fp:precise \/permissive- \/Fa\"OpenGl\\x64\\Debug\\\\\" \/Fo\"OpenGl\\x64\\Debug\\\\\" \/Gd --target=amd64-pc-windows-msvc;  \/TP \"D:\\PersonalProjects\\GraphicsEngine\\Libraries\\imgui\\imgui_impl_opengl3.cpp\"",
+    "file": "D:\\PersonalProjects\\GraphicsEngine\\Libraries\\imgui\\imgui_impl_opengl3.cpp"
+  },
+  {
+    "directory": "D:\\PersonalProjects\\GraphicsEngine\\OpenGL",
+    "command": "\"C:\\Windows\\system32\\CL.exe\" \/c \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\..\\Libraries\\glfw64\\include \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\..\\Libraries\\ \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\..\\Libraries\\glew\\include \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\\\src\\tests \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\src\\ \/nologo \/W3 \/WX- \/diagnostics:column \/Od \/D GLEW_STATIC \/D _DEBUG \/D _CONSOLE \/D _UNICODE \/D UNICODE \/EHsc \/RTC1 \/MDd \/GS \/fp:precise \/permissive- \/Fa\"OpenGl\\x64\\Debug\\\\\" \/Fo\"OpenGl\\x64\\Debug\\\\\" \/Gd --target=amd64-pc-windows-msvc;  \/TP \"D:\\PersonalProjects\\GraphicsEngine\\Libraries\\imgui\\imgui_tables.cpp\"",
+    "file": "D:\\PersonalProjects\\GraphicsEngine\\Libraries\\imgui\\imgui_tables.cpp"
+  },
+  {
+    "directory": "D:\\PersonalProjects\\GraphicsEngine\\OpenGL",
+    "command": "\"C:\\Windows\\system32\\CL.exe\" \/c \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\..\\Libraries\\glfw64\\include \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\..\\Libraries\\ \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\..\\Libraries\\glew\\include \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\\\src\\tests \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\src\\ \/nologo \/W3 \/WX- \/diagnostics:column \/Od \/D GLEW_STATIC \/D _DEBUG \/D _CONSOLE \/D _UNICODE \/D UNICODE \/EHsc \/RTC1 \/MDd \/GS \/fp:precise \/permissive- \/Fa\"OpenGl\\x64\\Debug\\\\\" \/Fo\"OpenGl\\x64\\Debug\\\\\" \/Gd --target=amd64-pc-windows-msvc;  \/TP \"D:\\PersonalProjects\\GraphicsEngine\\Libraries\\imgui\\imgui_widgets.cpp\"",
+    "file": "D:\\PersonalProjects\\GraphicsEngine\\Libraries\\imgui\\imgui_widgets.cpp"
+  },
+  {
+    "directory": "D:\\PersonalProjects\\GraphicsEngine\\OpenGL",
+    "command": "\"C:\\Windows\\system32\\CL.exe\" \/c \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\..\\Libraries\\glfw64\\include \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\..\\Libraries\\ \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\..\\Libraries\\glew\\include \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\\\src\\tests \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\src\\ \/nologo \/W3 \/WX- \/diagnostics:column \/Od \/D GLEW_STATIC \/D _DEBUG \/D _CONSOLE \/D _UNICODE \/D UNICODE \/EHsc \/RTC1 \/MDd \/GS \/fp:precise \/permissive- \/Fa\"OpenGl\\x64\\Debug\\\\\" \/Fo\"OpenGl\\x64\\Debug\\\\\" \/Gd --target=amd64-pc-windows-msvc;  \/TP \"D:\\PersonalProjects\\GraphicsEngine\\Libraries\\stb_image\\stb_image.cpp\"",
+    "file": "D:\\PersonalProjects\\GraphicsEngine\\Libraries\\stb_image\\stb_image.cpp"
+  },
+  {
+    "directory": "D:\\PersonalProjects\\GraphicsEngine\\OpenGL",
+    "command": "\"C:\\Windows\\system32\\CL.exe\" \/c \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\..\\Libraries\\glfw64\\include \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\..\\Libraries\\ \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\..\\Libraries\\glew\\include \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\\\src\\tests \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\src\\ \/nologo \/W3 \/WX- \/diagnostics:column \/Od \/D GLEW_STATIC \/D _DEBUG \/D _CONSOLE \/D _UNICODE \/D UNICODE \/EHsc \/RTC1 \/MDd \/GS \/fp:precise \/permissive- \/Fa\"OpenGl\\x64\\Debug\\\\\" \/Fo\"OpenGl\\x64\\Debug\\\\\" \/Gd --target=amd64-pc-windows-msvc;  \/TP \"D:\\PersonalProjects\\GraphicsEngine\\OpenGL\\src\\VertexBuffer.cpp\"",
+    "file": "D:\\PersonalProjects\\GraphicsEngine\\OpenGL\\src\\VertexBuffer.cpp"
+  },
+  {
+    "directory": "D:\\PersonalProjects\\GraphicsEngine\\OpenGL",
+    "command": "\"C:\\Windows\\system32\\CL.exe\" \/c \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\..\\Libraries\\glfw64\\include \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\..\\Libraries\\ \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\..\\Libraries\\glew\\include \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\\\src\\tests \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\src\\ \/nologo \/W3 \/WX- \/diagnostics:column \/Od \/D GLEW_STATIC \/D _DEBUG \/D _CONSOLE \/D _UNICODE \/D UNICODE \/EHsc \/RTC1 \/MDd \/GS \/fp:precise \/permissive- \/Fa\"OpenGl\\x64\\Debug\\\\\" \/Fo\"OpenGl\\x64\\Debug\\\\\" \/Gd --target=amd64-pc-windows-msvc;  \/TP \"D:\\PersonalProjects\\GraphicsEngine\\OpenGL\\src\\VertexArray.cpp\"",
+    "file": "D:\\PersonalProjects\\GraphicsEngine\\OpenGL\\src\\VertexArray.cpp"
+  },
+  {
+    "directory": "D:\\PersonalProjects\\GraphicsEngine\\OpenGL",
+    "command": "\"C:\\Windows\\system32\\CL.exe\" \/c \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\..\\Libraries\\glfw64\\include \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\..\\Libraries\\ \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\..\\Libraries\\glew\\include \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\\\src\\tests \/ID:\\PersonalProjects\\GraphicsEngine\\OpenGL\\src\\ \/nologo \/W3 \/WX- \/diagnostics:column \/Od \/D GLEW_STATIC \/D _DEBUG \/D _CONSOLE \/D _UNICODE \/D UNICODE \/EHsc \/RTC1 \/MDd \/GS \/fp:precise \/permissive- \/Fa\"OpenGl\\x64\\Debug\\\\\" \/Fo\"OpenGl\\x64\\Debug\\\\\" \/Gd --target=amd64-pc-windows-msvc;  \/TP \"D:\\PersonalProjects\\GraphicsEngine\\OpenGL\\src\\Texture.cpp\"",
+    "file": "D:\\PersonalProjects\\GraphicsEngine\\OpenGL\\src\\Texture.cpp"
+  }
+]

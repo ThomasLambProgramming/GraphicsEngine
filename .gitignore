@@ -34,7 +34,6 @@
 *.user
 .vs/
 [Ll]ibraries/
-[Oo]penGl/
 x64/
 SampleAssets/
 [Bb]in/
