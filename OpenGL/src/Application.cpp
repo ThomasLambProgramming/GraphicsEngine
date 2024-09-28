@@ -37,8 +37,8 @@ void Application::InitApplication()
 	mainCamera->id = 0;
 	mainCamera->position = glm::vec3(230.0f,160.0f,165.0f);
     //Set Rotation to 0;
-	mainCamera->phi = 220;
-    mainCamera->theta = 20;
+    mainCamera->theta = 220;
+	mainCamera->phi = -20;
 
     testShader = Shader("D:/PersonalProjects/GraphicsEngine/OpenGL/shaders/simple.vert", "D:/PersonalProjects/GraphicsEngine/OpenGL/shaders/simple.frag", nullptr);
     testModel.LoadFile("D:/PersonalProjects/GraphicsEngine/SampleAssets/Models/Duck/glTF/duck.gltf");
