@@ -38,6 +38,7 @@ private:
     float movementSpeed = 5;
     glm::mat4 worldMatrix;
     glm::vec3 offset;
+    glm::vec3 mainLightDirection = glm::vec3(0, -0.45, 1);
 
     float deltaTime = 0;
     double previousTime = 0;

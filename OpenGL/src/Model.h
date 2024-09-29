@@ -19,6 +19,7 @@ private:
     
     void ProcessNode(aiNode* node, const aiScene* scene);
     Mesh ProcessMesh(aiMesh* mesh, const aiScene* scene);
-    vector<Texture> LoadMaterialTextures(aiMaterial* material, aiTextureType type, string typeName);
-    unsigned int TextureFromFile(const char *path, const string &directory, bool gamma = false);
+    vector<Texture> LoadMaterialTextures(const aiScene* scene, aiMaterial* material, aiTextureType type, string typeName);
+
+    const aiScene* aiSceneModel;
 };

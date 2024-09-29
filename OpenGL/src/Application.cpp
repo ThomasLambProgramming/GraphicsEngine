@@ -137,6 +137,16 @@ void Application::RenderImgui()
     cameraRotation[0] = floor(mainCamera->theta * 100) / 100;
     cameraRotation[1] = floor(mainCamera->phi * 100) / 100;
     ImGui::SliderFloat2("Camera Rotation", cameraRotation, -1000, 1000);
+
+    float mLightDir[3];
+    mLightDir[0] = floor(mainLightDirection.x * 100) / 100;
+    mLightDir[1] = floor(mainLightDirection.y * 100) / 100;
+    mLightDir[2] = floor(mainLightDirection.z * 100) / 100;
+    ImGui::SliderFloat3("Main Light Direction", mLightDir, -1000, 1000);
+    mainLightDirection.x = mLightDir[0];
+    mainLightDirection.y = mLightDir[1];
+    mainLightDirection.z = mLightDir[2];
+    mainLightDirection = glm::normalize(mainLightDirection);
     
     ImGui::End();
     
@@ -154,6 +164,8 @@ void Application::RenderLoop()
 
     testShader.Use();
     glBindVertexArray(VAO);
+    testShader.setVec3("mainLightDirection", mainLightDirection);
+    testShader.setVec3("cameraPosition", mainCamera->position);
     testShader.setVec4("triangleColor", 0,0,1,1 );
     testShader.setMat4("worldMatrix", glm::rotate(glm::mat4(1.0f), glm::radians(1.0f), glm::vec3(1.0f, 0.0f, 0.0f)));
     glm::mat4 viewMatrix = mainCamera->GetViewMatrix();

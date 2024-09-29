@@ -64,7 +64,6 @@ void Camera::Update(float a_deltaTime, GLFWwindow* glfwWindow)
 
     if (m_lastMouseX == FLT_MAX || m_lastMouseY == FLT_MAX)
     {
-        std::cout << "Did max" << std::endl;
         m_lastMouseX = mx;
         m_lastMouseY = my;
     }
