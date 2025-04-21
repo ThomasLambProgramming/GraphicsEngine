@@ -1,2 +1,0 @@
-"C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\MSBuild.exe" /t:ClangTidy ./OpenGL/OpenGl.sln
-move /Y .\OpenGL\OpenGl\x64\Debug\OpenGl.ClangTidy\compile_commands.json ./OpenGL

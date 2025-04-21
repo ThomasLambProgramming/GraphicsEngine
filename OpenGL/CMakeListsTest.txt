@@ -1,0 +1,50 @@
+cmake_minimum_required(VERSION 3.29)
+
+project(OpenGLProject
+    VERSION 1.0 
+    DESCRIPTION "Learning how this works" 
+    LANGUAGES CXX)
+
+add_executable(OpenGLProject
+    src/Application.h
+    src/Application.cpp
+    src/Camera.h
+    src/Camera.cpp
+    src/Mesh.h
+    src/Mesh.cpp
+    src/Model.h
+    src/Model.cpp
+    src/Shader.h
+    src/Shader.cpp
+    src/main.cpp)
+
+# compile with c++20
+target_compile_features(OpenGLProject PRIVATE cxx_std_20)
+
+# add a preprocessor directive
+target_compile_definitions(OpenGLProject PRIVATE GLEW_STATIC)
+
+# add compiler warnings
+if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    target_compile_options(OpenGLProject PRIVATE -Wall -Wextra -Wpedantic)
+
+elseif (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    target_compile_options(OpenGLProject PRIVATE /W4)
+endif()
+
+target_include_directories(OpenGLProject PRIVATE "../Libraries/assimp/include")
+target_include_directories(OpenGLProject PRIVATE "../Libraries/cgltf")
+target_include_directories(OpenGLProject PRIVATE "../Libraries/glew/include")
+target_include_directories(OpenGLProject PRIVATE "../Libraries/glfw64/include")
+target_include_directories(OpenGLProject PRIVATE "../Libraries/glm")
+target_include_directories(OpenGLProject PRIVATE "../Libraries/imgui")
+target_include_directories(OpenGLProject PRIVATE "../Libraries/stb_image")
+target_include_directories(OpenGLProject PRIVATE "../Libraries")
+
+target_link_libraries(OpenGLProject glew32s.lib)
+target_link_libraries(OpenGLProject glfw3.lib)
+target_link_libraries(OpenGLProject opengl32.lib)
+target_link_libraries(OpenGLProject User32.lib)
+target_link_libraries(OpenGLProject Gdi32.lib)
+target_link_libraries(OpenGLProject Shell32.lib)
+target_link_libraries(OpenGLProject assimp-vc143-mtd.lib)

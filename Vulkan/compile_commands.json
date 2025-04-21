@@ -1,7 +1,0 @@
-[
-  {
-    "directory": "D:\\PersonalProjects\\GraphicsEngine\\Vulkan\\Vulkan",
-    "command": "\"C:\\Windows\\system32\\CL.exe\" \/c \/IC:\\VulkanSDK\\1.3.280.0\\Include \/ID:\\PersonalProjects\\GraphicsEngine\\Vulkan\\..\\Libraries\\glm \/ID:\\PersonalProjects\\GraphicsEngine\\Vulkan\\..\\Libraries\\glfw64\\include\\GLFW \/nologo \/W3 \/WX- \/diagnostics:column \/Od \/D _DEBUG \/D _CONSOLE \/D _UNICODE \/D UNICODE \/EHsc \/RTC1 \/MDd \/GS \/fp:precise \/std:c++17 \/permissive- \/Fa\"x64\\Debug\\\\\" \/Fo\"x64\\Debug\\\\\" \/Gd --target=amd64-pc-windows-msvc;  \/TP \"D:\\PersonalProjects\\GraphicsEngine\\Vulkan\\Vulkan\\main.cpp\"",
-    "file": "D:\\PersonalProjects\\GraphicsEngine\\Vulkan\\Vulkan\\main.cpp"
-  }
-]

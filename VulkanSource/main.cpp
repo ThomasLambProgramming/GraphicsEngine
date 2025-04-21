@@ -2,7 +2,7 @@
 // GLFW_INCLUDE VULKAN will make glfw load the vulkan.h header for us among
 // other things
 #define GLFW_INCLUDE_VULKAN
-#include "glfw3.h"
+#include "GLFW/glfw3.h"
 #include <cstdlib>
 #include <cstring>
 #include <optional>
